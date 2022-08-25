@@ -1,12 +1,12 @@
 <template>
   <div class="cart-item">
-    <img :src="item.image" alt="" />
+    <img :src="item.image" :alt="item.title" />
     <div>
-      <button @click="$emit('delete-item', item.id)" class="del-btn">
+      <button class="del-btn" @click="$emit('delete-item', item.id)">
         <i class="bx bxs-trash-alt"></i>
       </button>
       <p>{{ item.title }}</p>
-      <p>${{ item.price.toFixed(2) }}</p>
+      <p>{{ formattedPrice }}</p>
       <div class="quantity">
         <span>Quantity:</span>
         <button
@@ -36,6 +36,11 @@ export default {
     return {
       quantity: 1,
     };
+  },
+  computed: {
+    formattedPrice() {
+      return `$${this.item.price.toFixed(2)}`;
+    },
   },
   emits: ['delete-item', 'decrement-qty', 'increment-qty'],
 };

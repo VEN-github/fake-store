@@ -61,17 +61,13 @@ export default {
       this.cart.splice(index, 1);
     },
     incrementQty(id) {
-      this.cart.filter(item => {
-        if (item.id === id) {
-          item.quantity += 1;
-        }
+      this.cart.map(item => {
+        if (item.id === id) item.quantity += 1;
       });
     },
     decrementQty(id) {
-      this.cart.filter(item => {
-        if (item.id === id) {
-          item.quantity -= 1;
-        }
+      this.cart.map(item => {
+        if (item.id === id) item.quantity -= 1;
       });
     },
     alertMessage(message) {
@@ -95,17 +91,14 @@ export default {
     },
     categories() {
       const categories = this.products.map(item => item.category);
-      categories.unshift('All');
-      return [...new Set(categories)];
+      return ['All', ...new Set(categories)];
     },
   },
   created() {
     axios
       .get('https://fakestoreapi.com/products')
-      .then(res => (this.products = res.data))
-      .catch(err => {
-        return Promise.reject(err);
-      });
+      .then(({ data }) => (this.products = data))
+      .catch(err => Promise.reject(err));
   },
 };
 </script>

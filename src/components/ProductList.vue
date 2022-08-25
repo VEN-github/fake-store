@@ -15,10 +15,10 @@
         v-for="product in filteredProducts"
         :key="product.id"
       >
-        <img lazy :src="product.image" alt="" />
+        <img lazy :src="product.image" :alt="product.title" />
         <p>{{ product.title }}</p>
         <p>${{ product.price.toFixed(2) }}</p>
-        <button @click="addCart(product.id)">Add to Cart</button>
+        <button @click="$emit('add-to-cart', product.id)">Add to Cart</button>
       </div>
     </div>
   </div>
@@ -36,16 +36,14 @@ export default {
       selectedCategory: 'All',
     };
   },
-  methods: {
-    addCart(id) {
-      this.$emit('add-to-cart', id);
-    },
-  },
   computed: {
     filteredProducts() {
       return this.selectedCategory === 'All'
         ? this.products
         : this.products.filter(item => item.category === this.selectedCategory);
+    },
+    formattedPrice() {
+      return this.product.price.toFixed(2);
     },
   },
 };

@@ -8,7 +8,7 @@
       </button>
     </div>
     <div class="empty-space" v-if="!cart.length">
-      <img src="../assets/empty-cart.svg" alt="" />
+      <img src="../assets/empty-cart.svg" alt="Illustration of Empty Cart" />
       <p>Your cart is currently empty</p>
     </div>
     <div v-else>
@@ -20,7 +20,7 @@
         @increment-qty="$emit('increment-qty', item.id)"
         @decrement-qty="$emit('decrement-qty', item.id)"
       />
-      <p class="total">Total: ${{ total.toFixed(2) }}</p>
+      <p class="total">Total: {{ formattedPrice }}</p>
     </div>
   </div>
 </template>
@@ -35,6 +35,11 @@ export default {
   },
   components: {
     CartItem,
+  },
+  computed: {
+    formattedPrice() {
+      return `$${this.total.toFixed(2)}`;
+    },
   },
   emits: ['toggle-cart', 'delete-item', 'decrement-qty', 'increment-qty'],
 };
