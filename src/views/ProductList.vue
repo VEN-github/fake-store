@@ -10,26 +10,28 @@
       </li>
     </ul>
     <div class="product-container">
-      <div
-        class="product"
+      <ProductItem
         v-for="product in filteredProducts"
         :key="product.id"
-      >
-        <img lazy :src="product.image" :alt="product.title" />
-        <p>{{ product.title }}</p>
-        <p>${{ product.price.toFixed(2) }}</p>
-        <button @click="$emit('add-to-cart', product.id)">Add to Cart</button>
-      </div>
+        :product="product"
+        :productId="product.id"
+        showButton
+        @add-to-cart="$emit('add-to-cart', product.id)"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import ProductItem from '../components/ProductItem.vue';
 export default {
   name: 'ProductList',
   props: {
     products: Array,
     categories: Array,
+  },
+  components: {
+    ProductItem,
   },
   data() {
     return {
@@ -41,9 +43,6 @@ export default {
       return this.selectedCategory === 'All'
         ? this.products
         : this.products.filter(item => item.category === this.selectedCategory);
-    },
-    formattedPrice() {
-      return this.product.price.toFixed(2);
     },
   },
 };
@@ -84,63 +83,5 @@ export default {
   padding: 2rem;
   background-color: #eff1f3;
   border-radius: 15px;
-}
-
-.product {
-  overflow: hidden;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
-    100px 100px 80px rgba(0, 0, 0, 0.07);
-}
-
-.product img {
-  flex-grow: 1;
-  width: 300px;
-  height: 300px;
-  object-fit: contain;
-  margin-bottom: 2rem;
-  padding: 2rem;
-}
-.product p {
-  padding: 0 1rem;
-}
-
-.product p:nth-child(2) {
-  margin-bottom: 0.3rem;
-  font-size: 1.125rem;
-  font-weight: 500;
-  color: #293241;
-}
-
-.product p:nth-child(3) {
-  margin-bottom: 1rem;
-  font-size: 1.125rem;
-  font-weight: 400;
-  color: #293241;
-}
-
-button {
-  margin-bottom: 2rem;
-  padding: 0.5em 0.75em;
-  font-size: 1.125rem;
-  font-weight: 500;
-  background-color: #e07a5f;
-  color: #fff;
-  border: none;
-  outline: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.5 ease;
-}
-
-button:hover {
-  background-color: #ee6c4d;
 }
 </style>

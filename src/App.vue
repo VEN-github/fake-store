@@ -1,10 +1,5 @@
 <template>
   <NavBar :cart="cart" @toggle-cart="toggleCart" />
-  <ProductList
-    :products="products"
-    :categories="categories"
-    @add-to-cart="addCart"
-  />
   <CartList
     v-if="showCart"
     :cart="cart"
@@ -14,11 +9,15 @@
     @decrement-qty="decrementQty"
     @increment-qty="incrementQty"
   />
+  <router-view
+    :products="products"
+    :categories="categories"
+    @add-to-cart="addCart"
+  />
 </template>
 
 <script>
 import NavBar from './components/NavBar.vue';
-import ProductList from './components/ProductList.vue';
 import CartList from './components/CartList.vue';
 import axios from 'axios';
 import { createToast } from 'mosha-vue-toastify';
@@ -26,7 +25,6 @@ export default {
   name: 'App',
   components: {
     NavBar,
-    ProductList,
     CartList,
   },
   data() {

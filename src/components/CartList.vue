@@ -49,6 +49,7 @@ export default {
 .cart-overlay {
   position: fixed;
   inset: 0;
+  z-index: 2;
   width: 100%;
   height: 100vh;
   background-color: #2c3037;
@@ -58,6 +59,7 @@ export default {
   position: fixed;
   top: 0;
   right: 0;
+  z-index: 2;
   overflow-y: scroll;
   width: 500px;
   max-width: 100%;
