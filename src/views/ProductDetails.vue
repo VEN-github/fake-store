@@ -2,13 +2,15 @@
   <div class="container" v-if="singleProduct">
     <div class="single-product">
       <div class="product_details-container">
-        <img class="product-image" :src="singleProduct.image" alt="" />
+        <img
+          class="product-image"
+          :src="singleProduct.image"
+          :alt="singleProduct.title"
+        />
         <div class="product-details">
           <h4 class="product-title">{{ singleProduct.title }}</h4>
           <p class="product-price">{{ formattedPrice }}</p>
-          <p class="product-rating">
-            <span>Rating</span> : {{ rate }}{{ rateCount }}
-          </p>
+          <p class="product-rating"><span>Rating</span>: {{ rate }}</p>
           <p class="product-desc">{{ singleProduct.description }}</p>
           <button
             class="btn_add-to-cart"
@@ -21,25 +23,7 @@
     </div>
     <div class="related-products-container">
       <h3 class="related-products-header">Related Products</h3>
-      <Splide
-        :options="{
-          rewind: true,
-          type: 'loop',
-          perPage: 3,
-          perMove: 1,
-          autoplay: true,
-          lazyLoad: 'nearby',
-          pagination: false,
-          breakpoints: {
-            640: {
-              perPage: 1,
-            },
-            948: {
-              perPage: 2,
-            },
-          },
-        }"
-      >
+      <Splide :options="splideOptions">
         <SplideSlide v-for="product in products" :key="product.id">
           <ProductItem size="sm" :product="product" :productId="product.id" />
         </SplideSlide>
@@ -67,6 +51,23 @@ export default {
     return {
       products: [],
       singleProduct: null,
+      splideOptions: {
+        rewind: true,
+        type: 'loop',
+        perPage: 3,
+        perMove: 1,
+        autoplay: true,
+        lazyLoad: 'nearby',
+        pagination: false,
+        breakpoints: {
+          640: {
+            perPage: 1,
+          },
+          948: {
+            perPage: 2,
+          },
+        },
+      },
     };
   },
   computed: {
@@ -74,16 +75,14 @@ export default {
       return `$${this.singleProduct?.price?.toFixed(2)}`;
     },
     rate() {
-      return this.singleProduct?.rating?.rate;
-    },
-    rateCount() {
-      return `(${this.singleProduct?.rating?.count})`;
+      const { rate, count } = this.singleProduct?.rating;
+      return `${rate} (${count})`;
     },
   },
   methods: {
-    loadProducts(route) {
-      this.singleProduct = route.meta.product;
-      this.products = route.meta.relatedProducts;
+    loadProducts({ meta: { product, relatedProducts } }) {
+      this.singleProduct = product;
+      this.products = relatedProducts;
     },
   },
   created() {

@@ -14,7 +14,6 @@
         v-for="product in filteredProducts"
         :key="product.id"
         :product="product"
-        :productId="product.id"
         showButton
         @add-to-cart="$emit('add-to-cart', product.id)"
       />

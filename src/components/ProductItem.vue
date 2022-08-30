@@ -19,7 +19,6 @@ export default {
   name: 'ProductItem',
   props: {
     product: Object,
-    productId: Number,
     showButton: { type: Boolean, default: false },
     size: {
       type: String,
@@ -32,7 +31,7 @@ export default {
       return `$${this.product.price.toFixed(2)}`;
     },
     productLink() {
-      return `/product/${this.productId}`;
+      return `/product/${this.product.id}`;
     },
   },
 };
