@@ -28,6 +28,7 @@ export default {
 header {
   position: sticky;
   top: 0;
+  z-index: 1;
   width: 100%;
   padding: 1.3rem 0;
   background-color: #f4f1de;
