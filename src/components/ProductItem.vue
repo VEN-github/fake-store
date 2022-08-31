@@ -95,8 +95,9 @@ a:hover {
 }
 
 button {
+  width: 90%;
   margin-bottom: 2rem;
-  padding: 0.5em 0.75em;
+  padding: 0.85em;
   font-size: 1.125rem;
   font-weight: 500;
   background-color: #e07a5f;

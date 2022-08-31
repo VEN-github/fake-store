@@ -2,11 +2,11 @@
   <div class="container">
     <ul class="categories">
       <li
-        :class="{ active: this.selectedCategory === category }"
+        :class="{ active: selectedCategory === category }"
         v-for="(category, index) in categories"
         :key="index"
       >
-        <span @click="this.selectedCategory = category">{{ category }}</span>
+        <span @click="filterCategory(category)">{{ category }}</span>
       </li>
     </ul>
     <div class="product-container">
@@ -15,7 +15,7 @@
         :key="product.id"
         :product="product"
         showButton
-        @add-to-cart="$emit('add-to-cart', product.id)"
+        @add-to-cart="$emit('add-to-cart', $event)"
       />
     </div>
   </div>
@@ -26,22 +26,22 @@ import ProductItem from '../components/ProductItem.vue';
 export default {
   name: 'ProductList',
   props: {
-    products: Array,
     categories: Array,
   },
   components: {
     ProductItem,
   },
-  data() {
-    return {
-      selectedCategory: 'All',
-    };
-  },
   computed: {
     filteredProducts() {
-      return this.selectedCategory === 'All'
-        ? this.products
-        : this.products.filter(item => item.category === this.selectedCategory);
+      return this.$store.getters.filteredProducts;
+    },
+    selectedCategory() {
+      return this.$store.getters.getSelectedCategory;
+    },
+  },
+  methods: {
+    filterCategory(category) {
+      this.$store.dispatch('filterCategory', category);
     },
   },
 };
@@ -77,7 +77,6 @@ export default {
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   grid-auto-flow: dense;
   gap: 30px;
-  /* margin-top: 8rem; */
   margin-bottom: 2rem;
   padding: 2rem;
   background-color: #eff1f3;

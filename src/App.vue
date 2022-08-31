@@ -10,7 +10,7 @@
     @increment-qty="incrementQty"
   />
   <router-view
-    :products="products"
+    v-if="categories"
     :categories="categories"
     @add-to-cart="addCart"
   />
@@ -19,84 +19,48 @@
 <script>
 import NavBar from './components/NavBar.vue';
 import CartList from './components/CartList.vue';
-import axios from 'axios';
-import { createToast } from 'mosha-vue-toastify';
 export default {
   name: 'App',
   components: {
     NavBar,
     CartList,
   },
-  data() {
-    return {
-      products: [],
-      cart: [],
-      showCart: false,
-    };
-  },
   methods: {
     addCart(id) {
-      const selectedItem = this.products.find(item => item.id === id);
-      const existingItem = this.cart.findIndex(
-        item => item.id === selectedItem.id
-      );
-      let message = '';
-      if (existingItem < 0) {
-        this.cart.push({ ...selectedItem, quantity: 1 });
-        message = `${selectedItem.title} added to cart.`;
-        this.alertMessage(message);
-        return;
-      }
-      this.cart[existingItem].quantity += 1;
-      message = `${selectedItem.title} updated the quantity.`;
-      this.alertMessage(message);
+      this.$store.dispatch('addToCart', id);
     },
     toggleCart() {
-      this.showCart = !this.showCart;
+      this.$store.dispatch('toggleCart');
     },
     removeItem(id) {
-      const index = this.cart.findIndex(item => item.id === id);
-      this.cart.splice(index, 1);
+      this.$store.dispatch('removeItem', id);
     },
     incrementQty(id) {
-      this.cart.map(item => {
-        if (item.id === id) item.quantity += 1;
-      });
+      this.$store.dispatch('increment', id);
     },
     decrementQty(id) {
-      this.cart.map(item => {
-        if (item.id === id) item.quantity -= 1;
-      });
-    },
-    alertMessage(message) {
-      createToast(message, {
-        hideProgressBar: true,
-        showIcon: true,
-        swipeClose: false,
-        timeout: 1000,
-        position: 'top-center',
-        type: 'success',
-        transition: 'slide',
-      });
+      this.$store.dispatch('decrement', id);
     },
   },
   computed: {
-    total() {
-      return this.cart.reduce(
-        (previous, current) => previous + current.price * current.quantity,
-        0
-      );
+    products() {
+      return this.$store.getters.getAllProducts;
     },
     categories() {
-      const categories = this.products.map(item => item.category);
-      return ['All', ...new Set(categories)];
+      return this.$store.getters.getAllCategories;
+    },
+    cart() {
+      return this.$store.getters.getAllCartItems;
+    },
+    showCart() {
+      return this.$store.getters.showCart;
+    },
+    total() {
+      return this.$store.getters.cartTotal;
     },
   },
   created() {
-    axios
-      .get('https://fakestoreapi.com/products')
-      .then(({ data }) => (this.products = data))
-      .catch(err => Promise.reject(err));
+    this.$store.dispatch('init');
   },
 };
 </script>
