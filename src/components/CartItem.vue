@@ -32,11 +32,6 @@ export default {
   props: {
     item: Object,
   },
-  data() {
-    return {
-      quantity: 1,
-    };
-  },
   computed: {
     formattedPrice() {
       return `$${this.item.price.toFixed(2)}`;
