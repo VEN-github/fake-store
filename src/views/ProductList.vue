@@ -1,15 +1,18 @@
 <template>
   <div class="container">
-    <ul class="categories">
+    <ul class="category">
       <li
-        :class="{ active: selectedCategory === category }"
+        class="category__list"
+        :class="{ 'category__list--active': selectedCategory === category }"
         v-for="(category, index) in categories"
         :key="index"
       >
-        <span @click="filterCategory(category)">{{ category }}</span>
+        <span class="category__name" @click="filterCategory(category)">{{
+          category
+        }}</span>
       </li>
     </ul>
-    <div class="product-container">
+    <div class="product">
       <ProductItem
         v-for="product in filteredProducts"
         :key="product.id"
@@ -46,40 +49,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.categories {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  list-style: none;
-  margin-top: 5rem;
-  margin-bottom: 1rem;
-}
-
-.categories li {
-  font-size: 1.125rem;
-  text-transform: capitalize;
-  cursor: pointer;
-}
-
-.categories li:hover {
-  color: #e07a5f;
-}
-
-.categories li.active {
-  color: #ee6c4d;
-}
-
-.product-container {
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  grid-auto-flow: dense;
-  gap: 30px;
-  margin-bottom: 2rem;
-  padding: 2rem;
-  background-color: #eff1f3;
-  border-radius: 15px;
-}
-</style>

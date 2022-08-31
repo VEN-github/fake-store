@@ -1,19 +1,21 @@
 <template>
   <div class="container" v-if="singleProduct">
-    <div class="single-product">
-      <div class="product_details-container">
+    <div class="product__single">
+      <div class="product__single__container">
         <img
-          class="product-image"
+          class="product__single__image"
           :src="singleProduct.image"
           :alt="singleProduct.title"
         />
-        <div class="product-details">
-          <h4 class="product-title">{{ singleProduct.title }}</h4>
-          <p class="product-price">{{ formattedPrice }}</p>
-          <p class="product-rating"><span>Rating</span>: {{ rate }}</p>
-          <p class="product-desc">{{ singleProduct.description }}</p>
+        <div>
+          <h4 class="product__single__title">{{ singleProduct.title }}</h4>
+          <p class="product__single__price">{{ formattedPrice }}</p>
+          <p class="product__single__rating">
+            <span class="product__single__label">Rating</span>: {{ rate }}
+          </p>
+          <p class="product__single__desc">{{ singleProduct.description }}</p>
           <button
-            class="btn_add-to-cart"
+            class="btn btn--primary product__single__btn"
             @click.prevent="$emit('add-to-cart', singleProduct.id)"
           >
             Add to Cart
@@ -21,8 +23,8 @@
         </div>
       </div>
     </div>
-    <div class="related-products-container">
-      <h3 class="related-products-header">Related Products</h3>
+    <div class="product__related">
+      <h3 class="product__related__title">Related Products</h3>
       <Splide :options="splideOptions">
         <SplideSlide v-for="product in relatedProducts" :key="product.id">
           <ProductItem size="sm" :product="product" />
@@ -98,83 +100,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.single-product {
-  display: grid;
-  place-items: center;
-  margin-bottom: 8rem;
-}
-
-.product_details-container {
-  overflow: hidden;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-top: 4rem;
-  padding: 4rem;
-  border: 2px solid #76787a;
-  border-radius: 10px;
-}
-
-.product-image {
-  width: 380px;
-  max-width: 100%;
-  height: auto;
-  object-fit: cover;
-  margin-right: 3rem;
-}
-
-.product-title {
-  font-size: 2.5rem;
-}
-
-.product-price {
-  font-size: 1.5rem;
-  font-weight: 400;
-}
-
-.product-rating {
-  margin-bottom: 1.2rem;
-  font-size: 1rem;
-}
-
-.product-rating span {
-  font-weight: 500;
-}
-
-.product-desc {
-  margin-bottom: 2rem;
-  font-size: 1.125rem;
-  text-align: justify;
-}
-
-.btn_add-to-cart {
-  width: 100%;
-  margin-bottom: 2rem;
-  padding: 0.75em;
-  font-size: 1.125rem;
-  font-weight: 500;
-  background-color: #e07a5f;
-  color: #fff;
-  border: none;
-  outline: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.5s ease-in;
-}
-
-.btn_add-to-cart:hover {
-  background-color: #ee6c4d;
-}
-
-.related-products-container {
-  margin-bottom: 5rem;
-}
-
-.related-products-header {
-  margin-bottom: 2.5rem;
-  font-size: 1.75rem;
-  font-weight: 500;
-}
-</style>

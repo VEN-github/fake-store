@@ -1,10 +1,16 @@
 <template>
-  <router-link :to="productLink">
-    <div class="product" :class="[`product-${size}`]">
-      <img lazy :src="product.image" :alt="product.title" />
-      <p>{{ product.title }}</p>
-      <p>{{ formattedPrice }}</p>
+  <router-link class="product__link" :to="productLink">
+    <div class="product__card" :class="[`product__card--${size}`]">
+      <img
+        lazy
+        class="product__card__image"
+        :src="product.image"
+        :alt="product.title"
+      />
+      <p class="product__card__title">{{ product.title }}</p>
+      <p class="product__card__price">{{ formattedPrice }}</p>
       <button
+        class="btn btn--primary product__card__btn"
         v-if="showButton"
         @click.prevent="$emit('add-to-cart', product.id)"
       >
@@ -36,80 +42,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-a {
-  text-decoration: none;
-  transition: transform 0.4s ease-in;
-}
-
-a:hover {
-  transform: scale(1.1);
-}
-
-.product {
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 100%;
-  background-color: #fff;
-  border-radius: 10px;
-}
-
-.product-md {
-  width: 100%;
-  box-shadow: 12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
-    100px 100px 80px rgba(0, 0, 0, 0.07);
-}
-
-.product-sm {
-  margin: 0 1rem;
-}
-
-.product img {
-  flex-grow: 1;
-  width: 300px;
-  height: 300px;
-  object-fit: contain;
-  margin-bottom: 2rem;
-  padding: 2rem;
-}
-.product p {
-  padding: 0 1rem;
-}
-
-.product p:nth-child(2) {
-  margin-bottom: 0.3rem;
-  font-size: 1.125rem;
-  font-weight: 500;
-  color: #293241;
-}
-
-.product p:nth-child(3) {
-  margin-bottom: 1rem;
-  font-size: 1.125rem;
-  font-weight: 400;
-  color: #293241;
-}
-
-button {
-  width: 90%;
-  margin-bottom: 2rem;
-  padding: 0.85em;
-  font-size: 1.125rem;
-  font-weight: 500;
-  background-color: #e07a5f;
-  color: #fff;
-  border: none;
-  outline: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.5s ease;
-}
-
-button:hover {
-  background-color: #ee6c4d;
-}
-</style>

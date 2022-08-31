@@ -1,0 +1,125 @@
+@use '../abstracts/mixins';
+@use '../abstracts/variables' as var;
+
+.cart {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  overflow-y: scroll;
+  width: 500px;
+  max-width: 100%;
+  height: 100%;
+  padding: 1.5rem 2rem;
+  background-color: var.$gray-color;
+
+  &__overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100vh;
+    background-color: var.$text-color-dark;
+    opacity: 0.7;
+  }
+
+  &__header {
+    @include mixins.flex(flex, space-between, center);
+
+    &__title {
+      font-size: 2rem;
+      font-weight: 500;
+    }
+
+    &__close {
+      font-size: 2.5rem;
+      font-weight: 500;
+      color: var.$text-color-dark;
+    }
+  }
+
+  &__empty {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    @include mixins.flex(flex, center, center);
+    flex-direction: column;
+    transform: translate(-50%, -50%);
+
+    &__image {
+      width: 350px;
+      object-fit: cover;
+      margin-bottom: 2rem;
+    }
+
+    &__title {
+      font-size: 1.5rem;
+    }
+  }
+
+  &__item {
+    overflow: hidden;
+    display: flex;
+    margin: 1.3rem 0;
+    padding: 1.5rem;
+    background-color: var.$text-color-light;
+    border-radius: 10px;
+    box-shadow: 12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+      100px 100px 80px rgba(0, 0, 0, 0.07);
+
+    &__image {
+      width: 100px;
+      object-fit: contain;
+      margin-right: 1.3rem;
+    }
+
+    &__del {
+      display: block;
+      margin-left: auto;
+      margin-bottom: 0.5rem;
+      background: transparent;
+
+      &__icon {
+        font-size: 1.3rem;
+        font-weight: 500;
+      }
+    }
+
+    &__quantity {
+      @include mixins.flex(flex, flex-start, center);
+
+      &__title {
+        margin-right: 0.5rem;
+      }
+
+      &__input {
+        width: 20%;
+        font-size: 1rem;
+        text-align: center;
+        background: transparent;
+        border: none;
+        outline: none;
+        pointer-events: none;
+      }
+
+      &__btn {
+        padding: 0.3em 0.75em;
+        font-size: 1rem;
+        font-weight: 500;
+        background-color: var.$text-color-dark;
+        color: var.$text-color-light;
+        border-radius: 5px;
+
+        &--disabled {
+          background-color: var.$gray-color;
+          color: var.$text-color-dark;
+        }
+      }
+    }
+
+    &__total {
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+  }
+}
