@@ -2,7 +2,7 @@
   <header>
     <div class="container flex">
       <div class="logo">
-        <a href="#">Fake Store</a>
+        <router-link to="/products">Fake Store</router-link>
       </div>
       <div class="nav-icons">
         <div @click="$emit('toggle-cart')" class="cart">

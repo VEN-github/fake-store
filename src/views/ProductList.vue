@@ -15,7 +15,7 @@
         :key="product.id"
         :product="product"
         showButton
-        @add-to-cart="$emit('add-to-cart', product.id)"
+        @add-to-cart="$emit('add-to-cart', $event)"
       />
     </div>
   </div>
@@ -77,7 +77,6 @@ export default {
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   grid-auto-flow: dense;
   gap: 30px;
-  /* margin-top: 8rem; */
   margin-bottom: 2rem;
   padding: 2rem;
   background-color: #eff1f3;

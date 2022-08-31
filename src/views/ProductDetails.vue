@@ -24,8 +24,8 @@
     <div class="related-products-container">
       <h3 class="related-products-header">Related Products</h3>
       <Splide :options="splideOptions">
-        <SplideSlide v-for="product in products" :key="product.id">
-          <ProductItem size="sm" :product="product" :productId="product.id" />
+        <SplideSlide v-for="product in relatedProducts" :key="product.id">
+          <ProductItem size="sm" :product="product" />
         </SplideSlide>
       </Splide>
     </div>
@@ -33,7 +33,6 @@
 </template>
 
 <script>
-//import axios from 'axios';
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
 import ProductItem from '../components/ProductItem.vue';
@@ -49,8 +48,6 @@ export default {
   },
   data() {
     return {
-      products: [],
-      singleProduct: null,
       splideOptions: {
         rewind: true,
         type: 'loop',
@@ -75,22 +72,28 @@ export default {
       return `$${this.singleProduct?.price?.toFixed(2)}`;
     },
     rate() {
-      const { rate, count } = this.singleProduct?.rating;
+      const { rate, count } = this.singleProduct?.rating ?? {};
       return `${rate} (${count})`;
+    },
+    singleProduct() {
+      return this.$store.getters.getSingleProduct ?? {};
+    },
+    relatedProducts() {
+      return this.$store.getters.getRelatedProducts ?? {};
     },
   },
   methods: {
-    loadProducts({ meta: { product, relatedProducts } }) {
-      this.singleProduct = product;
-      this.products = relatedProducts;
+    loadSingleProduct(productId) {
+      this.$store.commit('setSingleProduct', '');
+      this.$store.dispatch('loadSingleProduct', productId);
     },
   },
   created() {
-    this.loadProducts(this.$route);
+    this.loadSingleProduct(this.productId);
   },
   watch: {
-    $route(newRoute) {
-      this.loadProducts(newRoute);
+    productId(newId) {
+      this.loadSingleProduct(newId);
     },
   },
 };

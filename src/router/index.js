@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import ProductList from '../views/ProductList.vue';
 import ProductDetails from '../views/ProductDetails.vue';
 import ErrorPage from '../components/ErrorPage.vue';
-import axios from 'axios';
+
 const routes = [
   {
     path: '/',
@@ -20,20 +20,6 @@ const routes = [
     name: 'product',
     component: ProductDetails,
     props: true,
-    beforeEnter: async (to, _, next) => {
-      const { data } = await axios.get('https://fakestoreapi.com/products');
-      const product = data.find(product => product.id == to.params.productId);
-      if (!product) {
-        // redirect to not found
-        next('404');
-        return;
-      }
-      to.meta['product'] = product;
-      to.meta['relatedProducts'] = data.filter(
-        p => p.category === product.category && p.id !== product.id
-      );
-      next();
-    },
   },
   {
     path: '/:notFound(.*)',

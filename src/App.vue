@@ -10,6 +10,7 @@
     @increment-qty="incrementQty"
   />
   <router-view
+    v-if="categories"
     :products="products"
     :categories="categories"
     @add-to-cart="addCart"
@@ -19,7 +20,6 @@
 <script>
 import NavBar from './components/NavBar.vue';
 import CartList from './components/CartList.vue';
-import axios from 'axios';
 import { createToast } from 'mosha-vue-toastify';
 export default {
   name: 'App',
@@ -29,8 +29,6 @@ export default {
   },
   data() {
     return {
-      products: [],
-      cart: [],
       showCart: false,
     };
   },
@@ -42,7 +40,7 @@ export default {
       );
       let message = '';
       if (existingItem < 0) {
-        this.cart.push({ ...selectedItem, quantity: 1 });
+        this.$store.dispatch('addToCart', { ...selectedItem, quantity: 1 });
         message = `${selectedItem.title} added to cart.`;
         this.alertMessage(message);
         return;
@@ -81,22 +79,24 @@ export default {
     },
   },
   computed: {
+    products() {
+      return this.$store.getters.getAllProducts;
+    },
+    categories() {
+      return this.$store.getters.getAllCategories;
+    },
+    cart() {
+      return this.$store.getters.getAllCartItems;
+    },
     total() {
       return this.cart.reduce(
         (previous, current) => previous + current.price * current.quantity,
         0
       );
     },
-    categories() {
-      const categories = this.products.map(item => item.category);
-      return ['All', ...new Set(categories)];
-    },
   },
   created() {
-    axios
-      .get('https://fakestoreapi.com/products')
-      .then(({ data }) => (this.products = data))
-      .catch(err => Promise.reject(err));
+    this.$store.dispatch('init');
   },
 };
 </script>
