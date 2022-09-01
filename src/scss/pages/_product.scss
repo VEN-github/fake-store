@@ -60,7 +60,7 @@
       margin: 0 1rem;
     }
 
-    &__image {
+    &-image {
       flex-grow: 1;
       width: 300px;
       height: 300px;
@@ -69,7 +69,7 @@
       padding: 2rem;
     }
 
-    &__title {
+    &-title {
       margin-bottom: 0.3rem;
       padding: 0 1rem;
       font-size: 1.125rem;
@@ -77,7 +77,7 @@
       color: var.$text-color-dark;
     }
 
-    &__price {
+    &-price {
       margin-bottom: 1rem;
       padding: 0 1rem;
       font-size: 1.125rem;
@@ -85,7 +85,7 @@
       color: var.$text-color-dark;
     }
 
-    &__btn {
+    &-btn {
       width: 90%;
       margin-bottom: 2rem;
       padding: 0.85em;
@@ -97,7 +97,7 @@
     @include mixins.flex(flex, center, center);
     margin-bottom: 6rem;
 
-    &__container {
+    &-container {
       overflow: hidden;
       @include mixins.flex(flex, flex-start, center);
       margin-top: 4rem;
@@ -106,7 +106,7 @@
       border-radius: 10px;
     }
 
-    &__image {
+    &-image {
       width: 380px;
       max-width: 100%;
       height: auto;
@@ -114,31 +114,31 @@
       margin-right: 3rem;
     }
 
-    &__title {
+    &-title {
       font-size: 2.5rem;
     }
 
-    &__price {
+    &-price {
       font-size: 1.5rem;
       font-weight: 400;
     }
 
-    &__rating {
+    &-rating {
       margin-bottom: 1.2rem;
       font-size: 1rem;
 
-      &__label {
+      &-label {
         font-weight: 500;
       }
     }
 
-    &__desc {
+    &-desc {
       margin-bottom: 2rem;
       font-size: 1.125rem;
       text-align: justify;
     }
 
-    &__btn {
+    &-btn {
       width: 100%;
       margin-bottom: 2rem;
       padding: 0.75em;
@@ -150,7 +150,7 @@
   &__related {
     margin-bottom: 5rem;
 
-    &__title {
+    &-title {
       margin-bottom: 2.5rem;
       font-size: 1.75rem;
       font-weight: 500;

@@ -1,19 +1,19 @@
 <template>
-  <div class="cart__overlay" @click="$emit('toggle-cart')"></div>
+  <div class="cart-overlay" @click="$emit('toggle-cart')"></div>
   <div class="cart">
     <div class="cart__header">
-      <span class="cart__header__title">Your Cart</span>
+      <span class="cart__header-title">Your Cart</span>
       <button class="btn" @click="$emit('toggle-cart')">
-        <i class="cart__header__close bx bx-x"></i>
+        <i class="cart__header-close bx bx-x"></i>
       </button>
     </div>
     <div class="cart__empty" v-if="!cart.length">
       <img
-        class="cart__empty__image"
+        class="cart__empty-image"
         src="../assets/empty-cart.svg"
         alt="Illustration of Empty Cart"
       />
-      <p class="cart__empty__title">Your cart is currently empty</p>
+      <p class="cart__empty-title">Your cart is currently empty</p>
     </div>
     <div v-else>
       <CartItem
@@ -24,7 +24,7 @@
         @increment-qty="$emit('increment-qty', item.id)"
         @decrement-qty="$emit('decrement-qty', item.id)"
       />
-      <p class="cart__item__total">Total: {{ formattedPrice }}</p>
+      <p class="cart__item-total">Total: {{ formattedPrice }}</p>
     </div>
   </div>
 </template>

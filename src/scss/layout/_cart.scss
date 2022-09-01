@@ -13,7 +13,7 @@
   padding: 1.5rem 2rem;
   background-color: var.$gray-color;
 
-  &__overlay {
+  &-overlay {
     position: fixed;
     inset: 0;
     z-index: 2;
@@ -26,12 +26,12 @@
   &__header {
     @include mixins.flex(flex, space-between, center);
 
-    &__title {
+    &-title {
       font-size: 2rem;
       font-weight: 500;
     }
 
-    &__close {
+    &-close {
       font-size: 2.5rem;
       font-weight: 500;
       color: var.$text-color-dark;
@@ -46,13 +46,13 @@
     flex-direction: column;
     transform: translate(-50%, -50%);
 
-    &__image {
+    &-image {
       width: 350px;
       object-fit: cover;
       margin-bottom: 2rem;
     }
 
-    &__title {
+    &-title {
       font-size: 1.5rem;
     }
   }
@@ -67,32 +67,32 @@
     box-shadow: 12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
       100px 100px 80px rgba(0, 0, 0, 0.07);
 
-    &__image {
+    &-image {
       width: 100px;
       object-fit: contain;
       margin-right: 1.3rem;
     }
 
-    &__del {
+    &-del {
       display: block;
       margin-left: auto;
       margin-bottom: 0.5rem;
       background: transparent;
 
-      &__icon {
+      &-icon {
         font-size: 1.3rem;
         font-weight: 500;
       }
     }
 
-    &__quantity {
+    &-quantity {
       @include mixins.flex(flex, flex-start, center);
 
-      &__title {
+      &-title {
         margin-right: 0.5rem;
       }
 
-      &__input {
+      &-input {
         width: 20%;
         font-size: 1rem;
         text-align: center;
@@ -102,7 +102,7 @@
         pointer-events: none;
       }
 
-      &__btn {
+      &-btn {
         padding: 0.3em 0.75em;
         font-size: 1rem;
         font-weight: 500;
@@ -117,7 +117,7 @@
       }
     }
 
-    &__total {
+    &-total {
       font-size: 1.2rem;
       font-weight: 500;
     }

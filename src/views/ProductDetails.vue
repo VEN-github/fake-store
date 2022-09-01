@@ -1,21 +1,21 @@
 <template>
   <div class="container" v-if="singleProduct">
     <div class="product__single">
-      <div class="product__single__container">
+      <div class="product__single-container">
         <img
-          class="product__single__image"
+          class="product__single-image"
           :src="singleProduct.image"
           :alt="singleProduct.title"
         />
         <div>
-          <h4 class="product__single__title">{{ singleProduct.title }}</h4>
-          <p class="product__single__price">{{ formattedPrice }}</p>
-          <p class="product__single__rating">
-            <span class="product__single__label">Rating</span>: {{ rate }}
+          <h4 class="product__single-title">{{ singleProduct.title }}</h4>
+          <p class="product__single-price">{{ formattedPrice }}</p>
+          <p class="product__single-rating">
+            <span class="product__single-label">Rating</span>: {{ rate }}
           </p>
-          <p class="product__single__desc">{{ singleProduct.description }}</p>
+          <p class="product__single-desc">{{ singleProduct.description }}</p>
           <button
-            class="btn btn--primary product__single__btn"
+            class="btn btn_primary product__single-btn"
             @click.prevent="$emit('add-to-cart', singleProduct.id)"
           >
             Add to Cart
@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="product__related">
-      <h3 class="product__related__title">Related Products</h3>
+      <h3 class="product__related-title">Related Products</h3>
       <Splide :options="splideOptions">
         <SplideSlide v-for="product in relatedProducts" :key="product.id">
           <ProductItem size="sm" :product="product" />

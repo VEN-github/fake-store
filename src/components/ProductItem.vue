@@ -3,14 +3,14 @@
     <div class="product__card" :class="[`product__card--${size}`]">
       <img
         lazy
-        class="product__card__image"
+        class="product__card-image"
         :src="product.image"
         :alt="product.title"
       />
-      <p class="product__card__title">{{ product.title }}</p>
-      <p class="product__card__price">{{ formattedPrice }}</p>
+      <p class="product__card-title">{{ product.title }}</p>
+      <p class="product__card-price">{{ formattedPrice }}</p>
       <button
-        class="btn btn--primary product__card__btn"
+        class="btn btn_primary product__card-btn"
         v-if="showButton"
         @click.prevent="$emit('add-to-cart', product.id)"
       >
