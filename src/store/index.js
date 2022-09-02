@@ -28,12 +28,11 @@ const store = createStore({
       return singleProduct ?? {};
     },
     getRelatedProducts({ allProducts, singleProduct }) {
-      const relatedProducts = allProducts.filter(
+      return allProducts.filter(
         products =>
           products.category === singleProduct?.category &&
           products.id !== singleProduct?.id
       );
-      return relatedProducts;
     },
     getAllCartItems({ cart }) {
       return cart ?? {};
