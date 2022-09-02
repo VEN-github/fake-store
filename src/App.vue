@@ -1,5 +1,5 @@
 <template>
-  <NavBar :cart="cart" @toggle-cart="toggleCart" />
+  <NavBar @toggle-cart="toggleCart" />
   <CartList
     v-if="showCart"
     :cart="cart"

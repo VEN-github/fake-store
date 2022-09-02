@@ -9,7 +9,7 @@
       <div class="header__icons">
         <div class="header__icons-cart" @click="$emit('toggle-cart')">
           <i class="header__icons-cart-icon bx bx-cart"></i>
-          <span class="header__icons-cart-number">{{ cart.length }}</span>
+          <span class="header__icons-cart-number">{{ cartCount }}</span>
         </div>
         <i class="header__icons-user bx bx-user"></i>
       </div>
@@ -20,8 +20,10 @@
 <script>
 export default {
   name: 'NavBar',
-  props: {
-    cart: Array,
+  computed: {
+    cartCount() {
+      return this.$store.getters.cartCount;
+    },
   },
 };
 </script>
