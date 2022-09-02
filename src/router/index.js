@@ -8,12 +8,12 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    redirect: '/products',
+    component: ProductList,
   },
   {
     path: '/products',
     name: 'products',
-    component: ProductList,
+    redirect: '/',
   },
   {
     path: '/product/:productId',

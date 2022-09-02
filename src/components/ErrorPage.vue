@@ -7,9 +7,7 @@
         alt="Illustration of Page not found"
       />
       <h4 class="error__title">Page not found</h4>
-      <router-link class="btn btn_primary" to="/products"
-        >Back to Home</router-link
-      >
+      <router-link class="btn btn_primary" to="/">Back to Home</router-link>
     </div>
   </div>
 </template>

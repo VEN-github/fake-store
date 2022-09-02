@@ -17,48 +17,48 @@ const store = createStore({
     };
   },
   getters: {
-    getAllProducts(state) {
-      return state.allProducts;
+    getAllProducts({ allProducts }) {
+      return allProducts;
     },
-    getAllCategories(state) {
-      const categoryValues = Object.values(state.allCategories ?? {});
+    getAllCategories({ allCategories }) {
+      const categoryValues = Object.values(allCategories ?? {});
       return ['All', ...categoryValues];
     },
-    getSingleProduct(state) {
-      return state.singleProduct ?? {};
+    getSingleProduct({ singleProduct }) {
+      return singleProduct ?? {};
     },
-    getRelatedProducts(state) {
-      const relatedProducts = state.allProducts.filter(
+    getRelatedProducts({ allProducts, singleProduct }) {
+      return allProducts.filter(
         products =>
-          products.category === state.singleProduct?.category &&
-          products.id !== state.singleProduct?.id
+          products.category === singleProduct?.category &&
+          products.id !== singleProduct?.id
       );
-      return relatedProducts;
     },
-    getAllCartItems(state) {
-      return state.cart ?? {};
+    getAllCartItems({ cart }) {
+      return cart ?? {};
     },
-    showAlertMessage(state) {
-      return state.alertMessage;
+    showAlertMessage({ alertMessage }) {
+      return alertMessage;
     },
-    showCart(state) {
-      return state.showCart;
+    showCart({ showCart }) {
+      return showCart;
     },
-    cartTotal(state) {
-      return state.cart.reduce(
+    cartCount({ cart }) {
+      return cart.reduce((previous, current) => previous + current.quantity, 0);
+    },
+    cartTotal({ cart }) {
+      return cart.reduce(
         (previous, current) => previous + current.price * current.quantity,
         0
       );
     },
-    filteredProducts(state) {
-      return state.selectedCategory === 'All'
-        ? state.allProducts
-        : state.allProducts.filter(
-            item => item.category === state.selectedCategory
-          );
+    filteredProducts({ selectedCategory, allProducts }) {
+      return selectedCategory === 'All'
+        ? allProducts
+        : allProducts.filter(item => item.category === selectedCategory);
     },
-    getSelectedCategory(state) {
-      return state.selectedCategory;
+    getSelectedCategory({ selectedCategory }) {
+      return selectedCategory;
     },
   },
   mutations: {
@@ -72,7 +72,7 @@ const store = createStore({
       state.singleProduct = payload;
     },
     setCartItems(state, payload) {
-      state.cart.push(payload);
+      state.cart = payload;
     },
     setAlertMessage(state, payload) {
       const alert = createToast(payload, {
@@ -94,29 +94,30 @@ const store = createStore({
     },
   },
   actions: {
-    init(context) {
-      context.dispatch('loadProducts');
-      context.dispatch('loadCategories');
+    init({ dispatch }) {
+      dispatch('loadProducts');
+      dispatch('loadCategories');
+      dispatch('loadCartItems');
     },
-    loadProducts: async context => {
+    loadProducts: async ({ commit }) => {
       try {
         const { data } = await axios.get('https://fakestoreapi.com/products');
-        context.commit('setProducts', data);
+        commit('setProducts', data);
       } catch (error) {
         console.error(error);
       }
     },
-    loadCategories: async context => {
+    loadCategories: async ({ commit }) => {
       try {
         const { data } = await axios.get(
           'https://fakestoreapi.com/products/categories'
         );
-        context.commit('setCategories', data);
+        commit('setCategories', data);
       } catch (error) {
         console.error(error);
       }
     },
-    loadSingleProduct: async (context, id) => {
+    loadSingleProduct: async ({ commit }, id) => {
       try {
         const { data } = await axios.get(
           `https://fakestoreapi.com/products/${id}`
@@ -125,48 +126,66 @@ const store = createStore({
           router.push('/404');
           return;
         }
-        context.commit('setSingleProduct', data);
+        commit('setSingleProduct', data);
       } catch (error) {
         console.error(error);
       }
     },
-    addToCart(context, id) {
-      const selectedItem = context.state.allProducts.find(
-        item => item.id === id
-      );
-      const existingItem = context.state.cart.findIndex(
-        item => item.id === selectedItem.id
-      );
-      let message = '';
-      if (existingItem < 0) {
-        context.commit('setCartItems', { ...selectedItem, quantity: 1 });
-        message = `${selectedItem.title} added to cart.`;
-        context.commit('setAlertMessage', message);
+    loadCartItems: async ({ state, commit }) => {
+      let cartItems = await JSON.parse(localStorage.getItem('cartItems'));
+
+      if (cartItems !== null) {
+        commit('setCartItems', cartItems);
         return;
       }
-      context.state.cart[existingItem].quantity += 1;
-      message = `${selectedItem.title} updated the quantity.`;
-      context.commit('setAlertMessage', message);
+      localStorage.setItem('cartItems', JSON.stringify(state.cart));
     },
-    toggleCart(context) {
-      context.commit('setShowCart', !context.state.showCart);
+    storeCartItems({ dispatch }, items) {
+      localStorage.setItem('cartItems', JSON.stringify(items));
+      dispatch('loadCartItems');
     },
-    removeItem(context, id) {
-      const index = context.state.cart.findIndex(item => item.id === id);
-      context.state.cart.splice(index, 1);
+    addToCart: async ({ state, commit, dispatch }, id) => {
+      let cartItems = await JSON.parse(localStorage.getItem('cartItems'));
+      const selectedItem = state.allProducts.find(item => item.id === id);
+      const existingItem = cartItems.findIndex(
+        item => item.id === selectedItem.id
+      );
+
+      if (existingItem < 0) {
+        cartItems.push({ ...selectedItem, quantity: 1 });
+        dispatch('storeCartItems', cartItems);
+        commit('setAlertMessage', `${selectedItem.title} added to cart.`);
+        return;
+      }
+      cartItems[existingItem].quantity += 1;
+      dispatch('storeCartItems', cartItems);
+      commit('setAlertMessage', `${selectedItem.title} updated the quantity.`);
     },
-    increment(context, id) {
-      context.state.cart.map(item => {
+    toggleCart({ state, commit }) {
+      commit('setShowCart', !state.showCart);
+    },
+    removeItem: async ({ dispatch }, id) => {
+      let cartItems = await JSON.parse(localStorage.getItem('cartItems'));
+      const index = cartItems.findIndex(item => item.id === id);
+      cartItems.splice(index, 1);
+      dispatch('storeCartItems', cartItems);
+    },
+    increment: async ({ dispatch }, id) => {
+      let cartItems = await JSON.parse(localStorage.getItem('cartItems'));
+      cartItems.map(item => {
         if (item.id === id) item.quantity += 1;
       });
+      dispatch('storeCartItems', cartItems);
     },
-    decrement(context, id) {
-      context.state.cart.map(item => {
+    decrement: async ({ dispatch }, id) => {
+      let cartItems = await JSON.parse(localStorage.getItem('cartItems'));
+      cartItems.map(item => {
         if (item.id === id) item.quantity -= 1;
       });
+      dispatch('storeCartItems', cartItems);
     },
-    filterCategory(context, category) {
-      context.commit('setSelectedCategory', category);
+    filterCategory({ commit }, category) {
+      commit('setSelectedCategory', category);
     },
   },
   modules: {},

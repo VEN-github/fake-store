@@ -25,6 +25,9 @@
         @decrement-qty="$emit('decrement-qty', item.id)"
       />
       <p class="cart__item-total">Total: {{ formattedPrice }}</p>
+      <button class="btn btn_primary cart__item-btn">
+        Proceed to Checkout
+      </button>
     </div>
   </div>
 </template>
