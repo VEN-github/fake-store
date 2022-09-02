@@ -10,6 +10,7 @@ const store = createStore({
       allProducts: null,
       allCategories: null,
       singleProduct: null,
+      reviews: [],
       cart: [],
       alertMessage: null,
       showCart: false,
@@ -27,8 +28,11 @@ const store = createStore({
     getSingleProduct({ singleProduct }) {
       return singleProduct ?? {};
     },
+    getProductReviews({ singleProduct, reviews }) {
+      return reviews.filter(review => review.productId == singleProduct?.id);
+    },
     getRelatedProducts({ allProducts, singleProduct }) {
-      return allProducts.filter(
+      return allProducts?.filter(
         products =>
           products.category === singleProduct?.category &&
           products.id !== singleProduct?.id
@@ -70,6 +74,9 @@ const store = createStore({
     },
     setSingleProduct(state, payload) {
       state.singleProduct = payload;
+    },
+    setProductReviews(state, payload) {
+      state.reviews = payload;
     },
     setCartItems(state, payload) {
       state.cart = payload;
@@ -130,6 +137,21 @@ const store = createStore({
       } catch (error) {
         console.error(error);
       }
+    },
+    loadProductReviews: async ({ state, commit }) => {
+      let reviews = await JSON.parse(localStorage.getItem('reviews'));
+
+      if (reviews !== null) {
+        commit('setProductReviews', reviews);
+        return;
+      }
+      localStorage.setItem('reviews', JSON.stringify(state.reviews));
+    },
+    storeProductReviews: async ({ dispatch }, review) => {
+      let reviews = await JSON.parse(localStorage.getItem('reviews'));
+      reviews.push(review);
+      localStorage.setItem('reviews', JSON.stringify(reviews));
+      dispatch('loadProductReviews');
     },
     loadCartItems: async ({ state, commit }) => {
       let cartItems = await JSON.parse(localStorage.getItem('cartItems'));
