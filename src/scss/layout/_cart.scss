@@ -1,5 +1,6 @@
 @use '../abstracts/mixins';
 @use '../abstracts/variables' as var;
+@use '../components/media';
 
 .cart {
   position: fixed;
@@ -48,18 +49,21 @@
 
     &-image {
       width: 350px;
+      max-width: 100%;
+      height: auto;
       object-fit: cover;
       margin-bottom: 2rem;
     }
 
     &-title {
-      font-size: 1.5rem;
+      font-size: clamp(1.125rem, 8vw, 1.5rem);
+      text-align: center;
     }
   }
 
   &__item {
+    position: relative;
     overflow: hidden;
-    display: flex;
     margin: 1.3rem 0;
     padding: 1.5rem;
     background-color: var.$text-color-light;
@@ -68,14 +72,16 @@
       100px 100px 80px rgba(0, 0, 0, 0.07);
 
     &-image {
+      display: block;
       width: 100px;
       object-fit: contain;
-      margin-right: 1.3rem;
+      margin: 0 auto 1.3rem auto;
     }
 
     &-del {
-      display: block;
-      margin-left: auto;
+      position: absolute;
+      top: 30px;
+      right: 20px;
       margin-bottom: 0.5rem;
       background: transparent;
 
@@ -83,6 +89,14 @@
         font-size: 1.3rem;
         font-weight: 500;
       }
+    }
+
+    &-title {
+      margin-bottom: 0.3rem;
+    }
+
+    &-price {
+      margin-bottom: 0.75rem;
     }
 
     &-quantity {
@@ -126,6 +140,23 @@
     &-btn {
       width: 100%;
       padding: 0.75em;
+    }
+  }
+}
+
+@include media.small-phones {
+  .cart__item {
+    display: flex;
+
+    &-image {
+      margin-bottom: 0;
+      margin-right: 1.3rem;
+    }
+
+    &-del {
+      position: static;
+      display: block;
+      margin-left: auto;
     }
   }
 }

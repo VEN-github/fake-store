@@ -11,7 +11,7 @@
           <h4 class="product__single-title">{{ singleProduct.title }}</h4>
           <p class="product__single-price">{{ formattedPrice }}</p>
           <p class="product__single-rating">
-            <span class="product__single-label">Rating</span>: {{ rate }}
+            <span class="product__single-rating-label">Rating</span>: {{ rate }}
           </p>
           <p class="product__single-desc">{{ singleProduct.description }}</p>
           <button
@@ -42,7 +42,7 @@
             class="product__review-form-group"
           >
             <div class="input-group">
-              <label class="label" for="name">Name</label>
+              <label class="label product__review-label" for="name">Name</label>
               <input
                 class="input product__review-input"
                 type="text"
@@ -52,7 +52,9 @@
               />
             </div>
             <div class="input-group">
-              <label class="label" for="email">Email Address</label>
+              <label class="label product__review-label" for="email"
+                >Email Address</label
+              >
               <input
                 class="input product__review-input"
                 type="email"
@@ -62,7 +64,9 @@
               />
             </div>
             <div class="input-group">
-              <label class="label" for="rating">Rating</label>
+              <label class="label product__review-label" for="rating"
+                >Rating</label
+              >
               <select
                 class="input product__review-input"
                 name="rating"
@@ -77,7 +81,9 @@
               </select>
             </div>
             <div class="input-group">
-              <label class="label" for="review">Review</label>
+              <label class="label product__review-label" for="review"
+                >Review</label
+              >
               <textarea
                 class="input product__review-input"
                 name="review"

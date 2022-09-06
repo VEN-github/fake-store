@@ -1,0 +1,13 @@
+@use '../abstracts/variables' as var;
+
+@mixin small-phones {
+  @media screen and (min-width: var.$small-screen) {
+    @content;
+  }
+}
+
+@mixin laptops {
+  @media screen and (min-width: var.$medium-screen) {
+    @content;
+  }
+}
