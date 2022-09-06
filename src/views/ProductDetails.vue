@@ -84,7 +84,7 @@
                 id="review"
                 rows="10"
                 v-model="review"
-              ></textarea>
+              />
             </div>
             <input
               type="submit"
@@ -172,18 +172,17 @@ export default {
       this.$store.dispatch('loadSingleProduct', productId);
     },
     submitReview() {
+      const { productId, email, rating, review } = this;
       if (!this.name && !this.email && !this.review) {
         alert('Please input empty fields');
         return;
       }
-      let reviews = {
-        productId: this.productId,
-        name: this.name,
-        email: this.email,
-        rating: this.rating,
-        review: this.review,
-      };
-      this.$store.dispatch('storeProductReviews', reviews);
+      this.$store.dispatch('storeProductReviews', {
+        productId,
+        email,
+        rating,
+        review,
+      });
       this.name = null;
       this.email = null;
       this.rating = 5;
