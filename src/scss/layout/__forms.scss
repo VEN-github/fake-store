@@ -1,0 +1,23 @@
+@use '../abstracts/mixins';
+@use '../abstracts/variables' as var;
+
+.label {
+  margin-bottom: 0.3rem;
+  font-size: 1.125rem;
+}
+
+.input {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  outline: none;
+  padding: 0;
+  resize: none;
+
+  &-group {
+    @include mixins.flex(flex, flex-start, baseline);
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+  }
+}

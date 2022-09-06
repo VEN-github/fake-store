@@ -1,6 +1,7 @@
 @use './base/resets';
 @use './components/buttons';
-@use './pages/product';
-@use './pages/errorPage';
 @use './layout/header';
 @use './layout/cart';
+@use './layout/_forms';
+@use './pages/product';
+@use './pages/errorPage';
