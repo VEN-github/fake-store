@@ -6,8 +6,7 @@
       @click="toggleCategories()"
     >
       <div class="categories__header">
-        <span class="categories__title">Categories</span
-        ><span class="categories__icon">+</span>
+        <span class="categories__title">Categories</span><span class="categories__icon">+</span>
       </div>
       <ul class="category">
         <li
@@ -18,13 +17,11 @@
           v-for="(category, index) in categories"
           :key="index"
         >
-          <span class="category__name" @click="filterCategory(category)">{{
-            category
-          }}</span>
+          <span class="category__name" @click="filterCategory(category)">{{ category }}</span>
         </li>
       </ul>
     </div>
-    <div class="product">
+    <div id="product" class="product">
       <ProductItem
         v-for="product in filteredProducts"
         :key="product.id"
@@ -67,6 +64,15 @@ export default {
     filterCategory(category) {
       this.$store.dispatch('filterCategory', category);
     },
+    onScroll(el) {
+      this.$store.dispatch('productsLoaded', el);
+    },
+  },
+  mounted() {
+    window.addEventListener('scroll', this.onScroll);
+  },
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
   },
 };
 </script>

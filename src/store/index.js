@@ -15,6 +15,7 @@ const store = createStore({
       alertMessage: null,
       showCart: false,
       selectedCategory: 'All',
+      productsToShow: 8,
     };
   },
   getters: {
@@ -34,8 +35,7 @@ const store = createStore({
     getRelatedProducts({ allProducts, singleProduct }) {
       return allProducts?.filter(
         products =>
-          products.category === singleProduct?.category &&
-          products.id !== singleProduct?.id
+          products.category === singleProduct?.category && products.id !== singleProduct?.id
       );
     },
     getAllCartItems({ cart }) {
@@ -51,15 +51,12 @@ const store = createStore({
       return cart.reduce((previous, current) => previous + current.quantity, 0);
     },
     cartTotal({ cart }) {
-      return cart.reduce(
-        (previous, current) => previous + current.price * current.quantity,
-        0
-      );
+      return cart.reduce((previous, current) => previous + current.price * current.quantity, 0);
     },
-    filteredProducts({ selectedCategory, allProducts }) {
+    filteredProducts({ selectedCategory, allProducts, productsToShow }) {
       return selectedCategory === 'All'
-        ? allProducts
-        : allProducts.filter(item => item.category === selectedCategory);
+        ? allProducts?.slice(0, productsToShow)
+        : allProducts?.filter(item => item.category === selectedCategory).slice(0, productsToShow);
     },
     getSelectedCategory({ selectedCategory }) {
       return selectedCategory;
@@ -99,6 +96,9 @@ const store = createStore({
     setSelectedCategory(state, payload) {
       state.selectedCategory = payload;
     },
+    setProductsToShow(state, payload) {
+      state.productsToShow += payload;
+    },
   },
   actions: {
     init({ dispatch }) {
@@ -116,9 +116,7 @@ const store = createStore({
     },
     loadCategories: async ({ commit }) => {
       try {
-        const { data } = await axios.get(
-          'https://fakestoreapi.com/products/categories'
-        );
+        const { data } = await axios.get('https://fakestoreapi.com/products/categories');
         commit('setCategories', data);
       } catch (error) {
         console.error(error);
@@ -126,9 +124,7 @@ const store = createStore({
     },
     loadSingleProduct: async ({ commit }, id) => {
       try {
-        const { data } = await axios.get(
-          `https://fakestoreapi.com/products/${id}`
-        );
+        const { data } = await axios.get(`https://fakestoreapi.com/products/${id}`);
         if (!data) {
           router.push('/404');
           return;
@@ -169,9 +165,7 @@ const store = createStore({
     addToCart: async ({ state, commit, dispatch }, id) => {
       let cartItems = await JSON.parse(localStorage.getItem('cartItems'));
       const selectedItem = state.allProducts.find(item => item.id === id);
-      const existingItem = cartItems.findIndex(
-        item => item.id === selectedItem.id
-      );
+      const existingItem = cartItems.findIndex(item => item.id === selectedItem.id);
 
       if (existingItem < 0) {
         cartItems.push({ ...selectedItem, quantity: 1 });
@@ -208,6 +202,12 @@ const store = createStore({
     },
     filterCategory({ commit }, category) {
       commit('setSelectedCategory', category);
+    },
+    productsLoaded({ commit }, el) {
+      if (window.innerHeight + window.scrollY >= el.target.all.product.scrollHeight) {
+        commit('setProductsToShow', 4);
+        return;
+      }
     },
   },
   modules: {},
