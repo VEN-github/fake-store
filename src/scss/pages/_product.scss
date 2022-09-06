@@ -1,13 +1,49 @@
 @use '../abstracts/mixins';
 @use '../abstracts/variables' as var;
+@use '../components/media';
+
+.categories {
+  margin-top: 5rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem 0;
+  border-top: 1px solid var.$dark-gray-color;
+  border-bottom: 1px solid var.$dark-gray-color;
+
+  &__header {
+    @include mixins.flex(flex, space-between, center);
+    width: 100%;
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var.$text-color-dark;
+  }
+
+  &__icon {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var.$secondary-color;
+    transition: transform 0.3s ease;
+  }
+
+  &--open .category {
+    max-height: 300px;
+  }
+
+  &--open &__icon {
+    transform: rotate(45deg);
+  }
+}
 
 .category {
-  @include mixins.flex(flex, space-around, center);
+  overflow: hidden;
+  max-height: 0;
   list-style: none;
-  margin-top: 5rem;
-  margin-bottom: 1rem;
+  transition: max-height 1s ease;
 
   &__list {
+    margin: 1.5rem 0;
     font-size: 1.125rem;
     text-transform: capitalize;
     cursor: pointer;
@@ -24,12 +60,9 @@
 
 .product {
   overflow: hidden;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  grid-auto-flow: dense;
-  gap: 30px;
+  display: block;
   margin-bottom: 2rem;
-  padding: 2rem;
+  padding: 0 1rem;
   background-color: var.$gray-color;
   border-radius: 15px;
 
@@ -47,6 +80,7 @@
     @include mixins.flex(flex, center, center);
     flex-direction: column;
     height: 100%;
+    margin: 1rem 0;
     background-color: var.$text-color-light;
     border-radius: 10px;
 
@@ -62,17 +96,18 @@
 
     &-image {
       flex-grow: 1;
-      width: 300px;
-      height: 300px;
+      width: 200px;
+      max-width: 100%;
+      height: 200px;
       object-fit: contain;
-      margin-bottom: 2rem;
-      padding: 2rem;
+      margin-bottom: 1rem;
+      padding: 1rem;
     }
 
     &-title {
       margin-bottom: 0.3rem;
       padding: 0 1rem;
-      font-size: 1.125rem;
+      font-size: clamp(0.938rem, 4vw, 1.25rem);
       font-weight: 500;
       color: var.$text-color-dark;
     }
@@ -80,7 +115,7 @@
     &-price {
       margin-bottom: 1rem;
       padding: 0 1rem;
-      font-size: 1.125rem;
+      font-size: clamp(0.875rem, 4vw, 1.125rem);
       font-weight: 400;
       color: var.$text-color-dark;
     }
@@ -89,42 +124,42 @@
       width: 90%;
       margin-bottom: 2rem;
       padding: 0.85em;
+      font-size: 0.938rem;
       font-weight: 500;
     }
   }
 
   &__single {
-    @include mixins.flex(flex, center, center);
     margin-bottom: 2rem;
 
     &-container {
       overflow: hidden;
-      @include mixins.flex(flex, flex-start, center);
       margin-top: 4rem;
-      padding: 4rem;
       border-bottom: 2px solid var.$dark-gray-color;
     }
 
     &-image {
-      width: 380px;
+      display: block;
+      margin: 0 auto 2rem auto;
+      width: 280px;
       max-width: 100%;
       height: auto;
       object-fit: cover;
-      margin-right: 3rem;
     }
 
     &-title {
-      font-size: 2.5rem;
+      font-size: clamp(1.25rem, 6vw, 2.5rem);
+      margin-bottom: 0.75rem;
     }
 
     &-price {
-      font-size: 1.5rem;
+      font-size: clamp(1.125rem, 5vw, 1.5rem);
       font-weight: 400;
     }
 
     &-rating {
       margin-bottom: 1.2rem;
-      font-size: 1rem;
+      font-size: clamp(0.938rem, 4vw, 1rem);
 
       &-label {
         font-weight: 500;
@@ -133,14 +168,14 @@
 
     &-desc {
       margin-bottom: 2rem;
-      font-size: 1.125rem;
-      text-align: justify;
+      font-size: clamp(0.875rem, 4vw, 1.125rem);
     }
 
     &-btn {
       width: 100%;
       margin-bottom: 2rem;
       padding: 0.75em;
+      font-size: 0.938rem;
       font-weight: 500;
       background-color: var.$secondary-color;
     }
@@ -151,31 +186,33 @@
     border-bottom: 2px solid var.$dark-gray-color;
 
     &-title {
-      font-size: 1.75rem;
+      font-size: clamp(1.25rem, 5vw, 1.75rem);
       font-weight: 500;
     }
 
     &--flex {
-      @include mixins.flex(flex, space-between, baseline);
       margin-bottom: 3rem;
     }
 
     &-empty {
-      align-self: center;
+      margin: 2rem 0;
       &-image {
-        width: 700px;
+        display: block;
+        width: 400px;
+        max-width: 100%;
+        height: auto;
         object-fit: cover;
-        margin-bottom: 1rem;
+        margin: 0 auto 1rem auto;
       }
 
       &-text {
-        font-size: 2rem;
+        font-size: clamp(1.125rem, 5vw, 2rem);
         text-align: center;
       }
     }
 
     &-list {
-      width: 55%;
+      margin-bottom: 2rem;
     }
 
     &-card {
@@ -183,33 +220,34 @@
       border-bottom: 2px solid var.$gray-color;
 
       &--flex {
-        @include mixins.flex(flex, space-between, center);
         margin: 1rem 0;
       }
 
       &-header {
         &-name {
-          font-size: 1.25rem;
+          font-size: clamp(0.938rem, 4vw, 1.25rem);
           font-weight: 500;
         }
 
         &-email {
+          font-size: clamp(0.938rem, 4vw, 1.25rem);
           opacity: 0.7;
         }
 
         &-rating {
-          font-size: 1.25rem;
+          font-size: clamp(0.938rem, 4vw, 1.25rem);
 
           &-star {
             color: #ffbc04;
           }
         }
       }
+      &-body {
+        font-size: clamp(0.938rem, 4vw, 1.25rem);
+      }
     }
 
     &-form {
-      width: 40%;
-      height: 100%;
       padding: 2.3rem 2rem;
       background-color: var.$text-color-light;
       box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
@@ -217,16 +255,20 @@
 
       &-title {
         margin-bottom: 1rem;
-        font-size: 1.5rem;
+        font-size: clamp(1.25rem, 6vw, 1.5rem);
         font-weight: 500;
       }
+    }
+
+    &-label {
+      font-size: clamp(0.938rem, 4vw, 1.125rem);
     }
 
     &-input {
       width: 100%;
       height: 100%;
       padding: 0.5em 1em;
-      font-size: 1rem;
+      font-size: clamp(0.938rem, 4vw, 1rem);
       border: 1px solid var.$text-color-dark;
       border-radius: 5px;
     }
@@ -234,6 +276,7 @@
     &-submit {
       width: 100%;
       padding: 0.8em;
+      font-size: 0.938rem;
     }
   }
 
@@ -242,6 +285,105 @@
 
     &-title {
       @extend .product__review-title;
+    }
+  }
+}
+
+@include media.laptops {
+  .categories {
+    margin-bottom: 1rem;
+    padding: 0;
+    border-top: none;
+    border-bottom: none;
+
+    &__header {
+      display: none;
+    }
+  }
+
+  .category {
+    @include mixins.flex(flex, space-around, center);
+    max-height: 100%;
+
+    &__list {
+      margin: 0;
+    }
+  }
+
+  .product__single {
+    &-container {
+      @include mixins.flex(flex, flex-start, center);
+      padding: 4rem;
+    }
+
+    &-image {
+      width: 380px;
+      margin: 0 3rem 0 0;
+    }
+
+    &-btn {
+      font-size: 1.125rem;
+    }
+  }
+
+  .product__review {
+    &--flex {
+      @include mixins.flex(flex, space-between, baseline);
+    }
+
+    &-empty {
+      align-self: center;
+
+      &-image {
+        width: 700px;
+      }
+    }
+
+    &-list {
+      width: 55%;
+      margin-bottom: 0;
+    }
+
+    &-card {
+      &--flex {
+        @include mixins.flex(flex, space-between, center);
+        flex-wrap: wrap;
+      }
+    }
+
+    &-form {
+      width: 600px;
+      height: 100%;
+      margin-left: 3rem;
+    }
+
+    &-submit {
+      font-size: 1.125rem;
+    }
+  }
+}
+
+@include media.small-phones {
+  .product {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    grid-auto-flow: dense;
+    gap: 30px;
+    padding: 2rem;
+
+    &__card {
+      margin: 0;
+
+      &-image {
+        width: 300px;
+        height: 300px;
+        margin-bottom: 2rem;
+        padding: 2rem;
+      }
+
+      &-btn {
+        font-size: 1.125rem;
+      }
     }
   }
 }

@@ -11,7 +11,9 @@
           <i class="header__icons-cart-icon bx bx-cart"></i>
           <span class="header__icons-cart-number">{{ cartCount }}</span>
         </div>
-        <i class="header__icons-user bx bx-user"></i>
+        <div class="header__icons-user">
+          <i class="header__icons-user-icon bx bx-user"></i>
+        </div>
       </div>
     </div>
   </header>
