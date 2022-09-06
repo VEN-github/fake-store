@@ -86,8 +86,7 @@
 
     &--md {
       width: 100%;
-      box-shadow: 12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
-        100px 100px 80px rgba(0, 0, 0, 0.07);
+      box-shadow: 12.5px 12.5px 10px rgba(0, 0, 0, 0.035), 100px 100px 80px rgba(0, 0, 0, 0.07);
     }
 
     &--sm {
@@ -244,6 +243,7 @@
       }
       &-body {
         font-size: clamp(0.938rem, 4vw, 1.25rem);
+        word-wrap: break-word;
       }
     }
 
