@@ -9,11 +9,7 @@
     @decrement-qty="decrementQty"
     @increment-qty="incrementQty"
   />
-  <router-view
-    v-if="categories"
-    :categories="categories"
-    @add-to-cart="addCart"
-  />
+  <router-view v-if="categories" :categories="categories" @add-to-cart="addCart" />
 </template>
 
 <script>

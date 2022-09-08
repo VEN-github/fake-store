@@ -3,6 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import ProductList from '../views/ProductList.vue';
 import ProductDetails from '../views/ProductDetails.vue';
 import ErrorPage from '../components/ErrorPage.vue';
+import LoginPage from '../views/LoginPage.vue';
+import store from '@/store';
 
 const routes = [
   {
@@ -20,6 +22,18 @@ const routes = [
     name: 'product',
     component: ProductDetails,
     props: true,
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginPage,
+    beforeEnter(_, _2, next) {
+      if (store.getters.isLogged) {
+        next('/');
+        return;
+      }
+      next();
+    },
   },
   {
     path: '/:notFound(.*)',

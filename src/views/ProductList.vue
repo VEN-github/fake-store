@@ -3,7 +3,7 @@
     <div
       class="categories"
       :class="{ 'categories--open': showCategories }"
-      @click="toggleCategories()"
+      @click="toggleCategories"
     >
       <div class="categories__header">
         <span class="categories__title">Categories</span><span class="categories__icon">+</span>

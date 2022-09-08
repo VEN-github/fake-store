@@ -170,13 +170,14 @@ export default {
       this.$store.dispatch('loadSingleProduct', productId);
     },
     submitReview() {
-      const { productId, email, rating, review } = this;
-      if (!this.name && !this.email && !this.review) {
+      const { productId, name, email, rating, review } = this;
+      if (!name || !email || !review) {
         alert('Please input empty fields');
         return;
       }
       this.$store.dispatch('storeProductReviews', {
         productId,
+        name,
         email,
         rating,
         review,

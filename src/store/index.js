@@ -7,6 +7,8 @@ import { createToast } from 'mosha-vue-toastify';
 const store = createStore({
   state() {
     return {
+      allUsers: null,
+      singleUser: null,
       allProducts: null,
       allCategories: null,
       singleProduct: null,
@@ -16,9 +18,17 @@ const store = createStore({
       showCart: false,
       selectedCategory: 'All',
       productsToShow: 8,
+      isLogged: false,
     };
   },
   getters: {
+    getSingleUser({
+      singleUser: {
+        name: { firstname, lastname },
+      },
+    }) {
+      return `${firstname.charAt(0)}${lastname.charAt(0)}`.toUpperCase();
+    },
     getAllProducts({ allProducts }) {
       return allProducts;
     },
@@ -61,8 +71,17 @@ const store = createStore({
     getSelectedCategory({ selectedCategory }) {
       return selectedCategory;
     },
+    isLogged({ isLogged }) {
+      return isLogged;
+    },
   },
   mutations: {
+    setUsers(state, payload) {
+      state.allUsers = payload;
+    },
+    setSingleUser(state, payload) {
+      state.singleUser = payload;
+    },
     setProducts(state, payload) {
       state.allProducts = payload;
     },
@@ -99,12 +118,56 @@ const store = createStore({
     setProductsToShow(state, payload) {
       state.productsToShow += payload;
     },
+    setIsLogged(state, payload) {
+      state.isLogged = payload;
+    },
   },
   actions: {
     init({ dispatch }) {
+      dispatch('loadUsers');
       dispatch('loadProducts');
       dispatch('loadCategories');
       dispatch('loadCartItems');
+      dispatch('loadLoggedUser');
+    },
+    login: async ({ dispatch, state }, loginDetails) => {
+      try {
+        const { data } = await axios.post('https://fakestoreapi.com/auth/login', loginDetails);
+        const selectedUser = state.allUsers.find(
+          ({ username, password }) =>
+            username === loginDetails.username && password === loginDetails.password
+        );
+        sessionStorage.setItem('token', JSON.stringify(data));
+        sessionStorage.setItem('user', JSON.stringify(selectedUser));
+        dispatch('loadLoggedUser');
+      } catch ({ response }) {
+        alert(response.data);
+      }
+    },
+    logout({ commit }) {
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('user');
+      commit('setIsLogged', false);
+      router.push('/login');
+    },
+    loadLoggedUser: async ({ commit }) => {
+      let token = await JSON.parse(sessionStorage.getItem('token'));
+      let user = await JSON.parse(sessionStorage.getItem('user'));
+
+      if (token && user) {
+        commit('setSingleUser', user);
+        commit('setIsLogged', true);
+        router.push('/');
+        return;
+      }
+    },
+    loadUsers: async ({ commit }) => {
+      try {
+        const { data } = await axios.get('https://fakestoreapi.com/users');
+        commit('setUsers', data);
+      } catch (error) {
+        console.error(error);
+      }
     },
     loadProducts: async ({ commit }) => {
       try {
