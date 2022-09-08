@@ -13,7 +13,7 @@
           >Login</router-link
         >
         <div class="header__dropdown" v-else>
-          <div class="header__dropdown-avatar" @click="toggleDropdown()">{{ user }}</div>
+          <div class="header__dropdown-avatar" @click="toggleDropdown">{{ user }}</div>
           <ul
             class="header__dropdown-menu"
             :class="{ 'header__dropdown-menu--open': showDropdown }"
@@ -21,7 +21,7 @@
             <li class="header__dropdown-item">
               <i class="header__dropdown-item-icon bx bx-user"></i>Profile
             </li>
-            <li class="header__dropdown-item" @click="logout()">
+            <li class="header__dropdown-item" @click="logout">
               <i class="header__dropdown-item-icon bx bx-log-out"></i>Logout
             </li>
           </ul>

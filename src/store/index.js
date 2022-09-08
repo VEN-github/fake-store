@@ -134,7 +134,8 @@ const store = createStore({
       try {
         const { data } = await axios.post('https://fakestoreapi.com/auth/login', loginDetails);
         const selectedUser = state.allUsers.find(
-          user => user.username === loginDetails.username && user.password === loginDetails.password
+          ({ username, password }) =>
+            username === loginDetails.username && password === loginDetails.password
         );
         sessionStorage.setItem('token', JSON.stringify(data));
         sessionStorage.setItem('user', JSON.stringify(selectedUser));
@@ -147,14 +148,13 @@ const store = createStore({
       sessionStorage.removeItem('token');
       sessionStorage.removeItem('user');
       commit('setIsLogged', false);
-      router.go(router.currentRoute);
-      //router.push('/login');
+      router.push('/login');
     },
     loadLoggedUser: async ({ commit }) => {
       let token = await JSON.parse(sessionStorage.getItem('token'));
       let user = await JSON.parse(sessionStorage.getItem('user'));
 
-      if (token !== null && user !== null) {
+      if (token && user) {
         commit('setSingleUser', user);
         commit('setIsLogged', true);
         router.push('/');

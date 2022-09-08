@@ -99,7 +99,7 @@
     }
 
     &-item {
-      @include mixins.flex(flex, center, center);
+      @include mixins.flex(flex, flex-start, center);
       margin: 1rem 0;
       font-size: 1rem;
       cursor: pointer;

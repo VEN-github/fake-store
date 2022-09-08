@@ -3,7 +3,7 @@
     <div class="login">
       <h4 class="login__title">Login to Fake Store</h4>
       <div class="login__card">
-        <form @submit.prevent="login()">
+        <form @submit.prevent="login">
           <div class="input-group">
             <label class="label" for="username">Username</label
             ><input class="input login__input" type="text" id="username" v-model="username" />
