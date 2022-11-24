@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container container--flex">
     <div class="error">
       <img
         class="error__illustration"

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container container--flex">
     <div class="login">
       <h4 class="login__title">Login to Fake Store</h4>
       <div class="login__card">

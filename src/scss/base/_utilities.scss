@@ -1,0 +1,24 @@
+@use '../abstracts/mixins';
+
+// container
+.container {
+  overflow: hidden;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 2rem;
+
+  &--flex {
+    @include mixins.flex(flex, center, center);
+    align-content: center;
+    height: calc(100vh - 92px);
+  }
+}
+
+// margin and padding
+$spacing: 1, 2, 3, 4, 5;
+
+@each $space in $spacing {
+  .m-#{$space} {
+    margin: #{$space}rem;
+  }
+}

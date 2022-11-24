@@ -4,7 +4,7 @@
 .error {
   @include mixins.flex(flex, center, center);
   flex-direction: column;
-  margin: 4rem 0;
+  //margin: 4rem 0;
 
   &__illustration {
     max-width: 100%;
